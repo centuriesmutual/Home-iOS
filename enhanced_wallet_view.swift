@@ -261,5 +261,7 @@ struct AccountView: View {
 }
 
 #Preview {
-    WalletView()
+    NavigationStack {
+        WalletView()
+    }
 }

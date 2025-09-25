@@ -8,7 +8,7 @@ struct ServicesView: View {
             title: "Tax Preparation",
             description: "Expert tax preparation services ensuring maximum returns and full compliance.",
             icon: "calculator",
-            color: Color(red: 0.08, green: 0.26, blue: 0.16),
+            color: Color(red: 0.83, green: 0.69, blue: 0.22),
             features: [
                 "Individual Tax Returns",
                 "Business Tax Preparation",
@@ -21,7 +21,7 @@ struct ServicesView: View {
             title: "Health Insurance",
             description: "Comprehensive health insurance solutions tailored to your needs.",
             icon: "heart",
-            color: Color(red: 0.10, green: 0.33, blue: 0.21),
+            color: Color(red: 0.11, green: 0.30, blue: 0.24),
             features: [
                 "Individual Health Plans",
                 "Family Coverage Options",
@@ -34,7 +34,7 @@ struct ServicesView: View {
             title: "Life Insurance",
             description: "Protect your family's future with our comprehensive life insurance plans.",
             icon: "shield",
-            color: Color(red: 0.12, green: 0.40, blue: 0.26),
+            color: Color(red: 0.96, green: 0.89, blue: 0.74),
             features: [
                 "Term Life Insurance",
                 "Whole Life Insurance",
@@ -54,7 +54,7 @@ struct ServicesView: View {
                         Text("Professional Services")
                             .font(.custom("Playfair Display", size: 32))
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.08, green: 0.26, blue: 0.16))
+                            .foregroundColor(Color(red: 0.83, green: 0.69, blue: 0.22))
                             .multilineTextAlignment(.center)
                         
                         Text("Comprehensive financial solutions tailored to your unique needs and goals")
@@ -94,13 +94,13 @@ struct ServicesView: View {
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white)
-                                .foregroundColor(Color(red: 0.08, green: 0.26, blue: 0.16))
+                                .background(Color(red: 0.96, green: 0.89, blue: 0.74))
+                                .foregroundColor(Color(red: 0.11, green: 0.30, blue: 0.24))
                                 .cornerRadius(12)
                         }
                     }
                     .padding()
-                    .background(Color(red: 0.08, green: 0.26, blue: 0.16))
+                    .background(Color(red: 0.11, green: 0.30, blue: 0.24))
                     .cornerRadius(16)
                     .padding(.horizontal)
                     

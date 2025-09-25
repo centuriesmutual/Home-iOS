@@ -1,134 +1,6 @@
 import SwiftUI
 import Combine
-
-// MARK: - Enrollment Models
-struct InsurancePlan: Identifiable, Codable {
-    let id = UUID()
-    let name: String
-    let type: String
-    let coverageDetails: String
-    let premiumMonthly: Double
-    let deductible: Double?
-    let copayPrimary: Double?
-    let copaySpecialist: Double?
-    let outOfPocketMax: Double?
-    let networkProviders: String?
-    let description: String
-}
-
-enum EnrollmentStep: String, CaseIterable {
-    case personalInfo = "Personal Information"
-    case planSelection = "Plan Selection"
-    case beneficiaries = "Beneficiaries"
-    case medicalHistory = "Medical History"
-    case documents = "Documents"
-    case review = "Review & Submit"
-    
-    func next() -> EnrollmentStep? {
-        let allSteps = EnrollmentStep.allCases
-        guard let currentIndex = allSteps.firstIndex(of: self) else { return nil }
-        return currentIndex < allSteps.count - 1 ? allSteps[currentIndex + 1] : nil
-    }
-    
-    func previous() -> EnrollmentStep? {
-        let allSteps = EnrollmentStep.allCases
-        guard let currentIndex = allSteps.firstIndex(of: self) else { return nil }
-        return currentIndex > 0 ? allSteps[currentIndex - 1] : nil
-    }
-}
-
-// MARK: - Enrollment View Model
-class EnrollmentViewModel: ObservableObject {
-    @Published var personalInfo = PersonalInfo()
-    @Published var selectedPlanId: UUID?
-    @Published var beneficiaries: [Beneficiary] = []
-    @Published var medicalHistory = MedicalHistory()
-    @Published var uploadedDocuments: [DocumentData] = []
-    @Published var availablePlans: [InsurancePlan] = []
-    @Published var isLoading = false
-    @Published var showingAlert = false
-    @Published var alertMessage = ""
-    @Published var enrollmentCompleted = false
-    
-    var dateOfBirth = Date()
-    
-    func loadInsurancePlans() {
-        // Mock data - in real app, this would fetch from API
-        availablePlans = [
-            InsurancePlan(
-                name: "Basic Health Plan",
-                type: "Health",
-                coverageDetails: "Essential health benefits with basic coverage",
-                premiumMonthly: 250.0,
-                deductible: 5000.0,
-                copayPrimary: 25.0,
-                copaySpecialist: 50.0,
-                outOfPocketMax: 8000.0,
-                networkProviders: "Local network providers",
-                description: "Comprehensive basic health coverage with essential benefits"
-            ),
-            InsurancePlan(
-                name: "Premium Health Plan",
-                type: "Health",
-                coverageDetails: "Comprehensive health benefits with premium coverage",
-                premiumMonthly: 450.0,
-                deductible: 2000.0,
-                copayPrimary: 15.0,
-                copaySpecialist: 30.0,
-                outOfPocketMax: 5000.0,
-                networkProviders: "Extended network providers",
-                description: "Premium health coverage with comprehensive benefits and lower out-of-pocket costs"
-            ),
-            InsurancePlan(
-                name: "Life Insurance Plan",
-                type: "Life",
-                coverageDetails: "Term life insurance with flexible coverage options",
-                premiumMonthly: 75.0,
-                deductible: nil,
-                copayPrimary: nil,
-                copaySpecialist: nil,
-                outOfPocketMax: nil,
-                networkProviders: nil,
-                description: "Term life insurance providing financial protection for your loved ones"
-            )
-        ]
-    }
-    
-    func canProceed(from step: EnrollmentStep) -> Bool {
-        switch step {
-        case .personalInfo:
-            return !personalInfo.firstName.isEmpty && 
-                   !personalInfo.lastName.isEmpty && 
-                   !personalInfo.email.isEmpty
-        case .planSelection:
-            return selectedPlanId != nil
-        case .beneficiaries:
-            return true // Beneficiaries are optional
-        case .medicalHistory:
-            return true // Medical history is optional
-        case .documents:
-            return true // Documents are optional
-        case .review:
-            return true
-        }
-    }
-    
-    func submitEnrollment() {
-        isLoading = true
-        
-        // Simulate enrollment submission
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.isLoading = false
-            self.enrollmentCompleted = true
-            self.alertMessage = "Enrollment submitted successfully! You will receive a confirmation email shortly."
-            self.showingAlert = true
-        }
-    }
-    
-    func uploadDocuments(_ documents: [DocumentData]) {
-        uploadedDocuments.append(contentsOf: documents)
-    }
-}
+import UniformTypeIdentifiers
 
 // MARK: - Main Enrollment View
 struct EnrollmentView: View {
@@ -233,39 +105,6 @@ struct EnrollmentView: View {
         .onAppear {
             viewModel.loadInsurancePlans()
         }
-    }
-}
-
-// MARK: - Progress Indicator
-struct ProgressIndicatorView: View {
-    let currentStep: EnrollmentStep
-    let totalSteps: Int
-    
-    private var currentStepIndex: Int {
-        EnrollmentStep.allCases.firstIndex(of: currentStep) ?? 0
-    }
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            HStack {
-                ForEach(0..<totalSteps, id: \.self) { index in
-                    Circle()
-                        .fill(index <= currentStepIndex ? Color(red: 0.83, green: 0.69, blue: 0.22) : Color.gray.opacity(0.3))
-                        .frame(width: 12, height: 12)
-                    
-                    if index < totalSteps - 1 {
-                        Rectangle()
-                            .fill(index < currentStepIndex ? Color(red: 0.83, green: 0.69, blue: 0.22) : Color.gray.opacity(0.3))
-                            .frame(height: 2)
-                    }
-                }
-            }
-            
-            Text("Step \(currentStepIndex + 1) of \(totalSteps): \(currentStep.rawValue)")
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .padding()
     }
 }
 
@@ -435,8 +274,8 @@ struct PlanCardView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(isSelected ? Color(red: 0.83, green: 0.69, blue: 0.22).opacity(0.1) : Color(.systemGray6))
-                .foregroundColor(isSelected ? Color(red: 0.83, green: 0.69, blue: 0.22) : .primary)
+                .background(isSelected ? Color(red: 0.08, green: 0.26, blue: 0.16).opacity(0.1) : Color(.systemGray6))
+                .foregroundColor(isSelected ? Color(red: 0.08, green: 0.26, blue: 0.16) : .primary)
                 .cornerRadius(8)
             }
         }
@@ -625,7 +464,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .fontWeight(.semibold)
             .foregroundColor(.white)
             .padding()
-            .background(Color(red: 0.83, green: 0.69, blue: 0.22))
+            .background(Color(red: 0.08, green: 0.26, blue: 0.16))
             .cornerRadius(8)
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
     }
@@ -643,6 +482,223 @@ struct SecondaryButtonStyle: ButtonStyle {
     }
 }
 
+// MARK: - Data Models
+struct PersonalInfo {
+    var firstName: String = ""
+    var lastName: String = ""
+    var email: String = ""
+    var phone: String = ""
+    var address = Address()
+    var emergencyContact = EmergencyContact()
+}
+
+struct Address {
+    var street: String = ""
+    var city: String = ""
+    var state: String = ""
+    var zipCode: String = ""
+}
+
+struct EmergencyContact {
+    var name: String = ""
+    var relationship: String = ""
+    var phone: String = ""
+}
+
+struct Beneficiary {
+    let id = UUID()
+    var name: String = ""
+    var relationship: String = ""
+    var percentage: Double = 0.0
+}
+
+struct MedicalHistory {
+    var hasConditions: Bool = false
+    var conditions: [String] = []
+    var medications: [String] = []
+}
+
+struct DocumentData {
+    let id = UUID()
+    var fileName: String = ""
+    var fileData: Data = Data()
+    var uploadDate: Date = Date()
+}
+
+// MARK: - Enrollment Models
+struct InsurancePlan: Identifiable, Codable {
+    let id = UUID()
+    let name: String
+    let type: String
+    let coverageDetails: String
+    let premiumMonthly: Double
+    let deductible: Double?
+    let copayPrimary: Double?
+    let copaySpecialist: Double?
+    let outOfPocketMax: Double?
+    let networkProviders: String?
+    let description: String
+}
+
+enum EnrollmentStep: String, CaseIterable {
+    case personalInfo = "Personal Information"
+    case planSelection = "Plan Selection"
+    case beneficiaries = "Beneficiaries"
+    case medicalHistory = "Medical History"
+    case documents = "Documents"
+    case review = "Review & Submit"
+    
+    func next() -> EnrollmentStep? {
+        let allSteps = EnrollmentStep.allCases
+        guard let currentIndex = allSteps.firstIndex(of: self) else { return nil }
+        return currentIndex < allSteps.count - 1 ? allSteps[currentIndex + 1] : nil
+    }
+    
+    func previous() -> EnrollmentStep? {
+        let allSteps = EnrollmentStep.allCases
+        guard let currentIndex = allSteps.firstIndex(of: self) else { return nil }
+        return currentIndex > 0 ? allSteps[currentIndex - 1] : nil
+    }
+}
+
+// MARK: - Enrollment View Model
+class EnrollmentViewModel: ObservableObject {
+    @Published var personalInfo = PersonalInfo()
+    @Published var selectedPlanId: UUID?
+    @Published var beneficiaries: [Beneficiary] = []
+    @Published var medicalHistory = MedicalHistory()
+    @Published var uploadedDocuments: [DocumentData] = []
+    @Published var availablePlans: [InsurancePlan] = []
+    @Published var isLoading = false
+    @Published var showingAlert = false
+    @Published var alertMessage = ""
+    @Published var enrollmentCompleted = false
+    
+    var dateOfBirth = Date()
+    
+    func loadInsurancePlans() {
+        // Mock data - in real app, this would fetch from API
+        availablePlans = [
+            InsurancePlan(
+                name: "Basic Health Plan",
+                type: "Health",
+                coverageDetails: "Essential health benefits with basic coverage",
+                premiumMonthly: 250.0,
+                deductible: 5000.0,
+                copayPrimary: 25.0,
+                copaySpecialist: 50.0,
+                outOfPocketMax: 8000.0,
+                networkProviders: "Local network providers",
+                description: "Comprehensive basic health coverage with essential benefits"
+            ),
+            InsurancePlan(
+                name: "Premium Health Plan",
+                type: "Health",
+                coverageDetails: "Comprehensive health benefits with premium coverage",
+                premiumMonthly: 450.0,
+                deductible: 2000.0,
+                copayPrimary: 15.0,
+                copaySpecialist: 30.0,
+                outOfPocketMax: 5000.0,
+                networkProviders: "Extended network providers",
+                description: "Premium health coverage with comprehensive benefits and lower out-of-pocket costs"
+            ),
+            InsurancePlan(
+                name: "Life Insurance Plan",
+                type: "Life",
+                coverageDetails: "Term life insurance with flexible coverage options",
+                premiumMonthly: 75.0,
+                deductible: nil,
+                copayPrimary: nil,
+                copaySpecialist: nil,
+                outOfPocketMax: nil,
+                networkProviders: nil,
+                description: "Term life insurance providing financial protection for your loved ones"
+            )
+        ]
+    }
+    
+    func canProceed(from step: EnrollmentStep) -> Bool {
+        switch step {
+        case .personalInfo:
+            return !personalInfo.firstName.isEmpty && 
+                   !personalInfo.lastName.isEmpty && 
+                   !personalInfo.email.isEmpty
+        case .planSelection:
+            return selectedPlanId != nil
+        case .beneficiaries:
+            return true // Beneficiaries are optional
+        case .medicalHistory:
+            return true // Medical history is optional
+        case .documents:
+            return true // Documents are optional
+        case .review:
+            return true
+        }
+    }
+    
+    func submitEnrollment() {
+        isLoading = true
+        
+        // Simulate enrollment submission
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.isLoading = false
+            self.enrollmentCompleted = true
+            self.alertMessage = "Enrollment submitted successfully! You will receive a confirmation email shortly."
+            self.showingAlert = true
+        }
+    }
+    
+    func uploadDocuments(_ documents: [DocumentData]) {
+        uploadedDocuments.append(contentsOf: documents)
+    }
+}
+
+// MARK: - Progress Indicator
+struct ProgressIndicatorView: View {
+    let currentStep: EnrollmentStep
+    let totalSteps: Int
+    
+    private var currentStepIndex: Int {
+        EnrollmentStep.allCases.firstIndex(of: currentStep) ?? 0
+    }
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                ForEach(0..<totalSteps, id: \.self) { index in
+                    Circle()
+                        .fill(index <= currentStepIndex ? Color(red: 0.08, green: 0.26, blue: 0.16) : Color.gray.opacity(0.3))
+                        .frame(width: 12, height: 12)
+                    
+                    if index < totalSteps - 1 {
+                        Rectangle()
+                            .fill(index < currentStepIndex ? Color(red: 0.08, green: 0.26, blue: 0.16) : Color.gray.opacity(0.3))
+                            .frame(height: 2)
+                    }
+                }
+            }
+            
+            Text("Step \(currentStepIndex + 1) of \(totalSteps): \(currentStep.rawValue)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+    }
+}
+
+// MARK: - Custom Text Field Style
+struct CustomTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
+    }
+}
+
 #Preview {
-    EnrollmentView()
+    NavigationStack {
+        EnrollmentView()
+    }
 }

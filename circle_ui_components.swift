@@ -1386,4 +1386,8 @@ struct CircleTestingHelper {
     - Set up alerts for suspicious transaction patterns
     - Regular backup of user earnings and transaction data
  */
+
+#Preview {
+    WalletView(userId: "preview_user_123")
+}
                 

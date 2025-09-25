@@ -65,8 +65,8 @@ struct CloudView: View {
     @State private var showingFullScreenPlayer: Bool = false
     
     // Color scheme
-    private let primaryColor = Color(red: 0.2, green: 0.6, blue: 0.9)
-    private let accentColor = Color(red: 0.9, green: 0.4, blue: 0.4)
+    private let primaryColor = Color(red: 0.83, green: 0.69, blue: 0.22)
+    private let accentColor = Color(red: 0.11, green: 0.30, blue: 0.24)
     private let backgroundColor = Color(UIColor.systemBackground)
     private let cardColor = Color(UIColor.secondarySystemBackground)
     
@@ -390,7 +390,7 @@ struct VideoRow: View {
     let playAction: () -> Void
     let favoriteAction: () -> Void
     
-    private let accentColor = Color(red: 0.9, green: 0.4, blue: 0.4)
+    private let accentColor = Color(red: 0.11, green: 0.30, blue: 0.24)
     private let cardColor = Color(UIColor.secondarySystemBackground)
     
     var body: some View {
@@ -510,5 +510,7 @@ struct YouTubePlayerView: UIViewRepresentable {
 
 // MARK: - Preview
 #Preview {
-    CloudView()
+    NavigationStack {
+        CloudView()
+    }
 }

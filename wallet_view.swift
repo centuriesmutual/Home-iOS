@@ -123,5 +123,7 @@ struct WithdrawView: View {
 }
 
 #Preview {
-    WalletView()
+    NavigationStack {
+        WalletView()
+    }
 }

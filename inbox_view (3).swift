@@ -624,6 +624,8 @@ struct DocumentPicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    InboxView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    NavigationStack {
+        InboxView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
 }

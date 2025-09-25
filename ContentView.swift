@@ -72,7 +72,7 @@ struct MainTabView: View {
                 }
                 .tag(5)
         }
-        .accentColor(Color(red: 0.08, green: 0.26, blue: 0.16)) // #14432A
+        .accentColor(Color(red: 0.83, green: 0.69, blue: 0.22)) // Golden branch color
     }
 }
 

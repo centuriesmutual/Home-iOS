@@ -11,11 +11,11 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background gradient matching website
+                // Background gradient inspired by golden branch on forest green
                 LinearGradient(
                     gradient: Gradient(colors: [
-                        Color(red: 0.08, green: 0.26, blue: 0.16), // #14432A
-                        Color(red: 0.10, green: 0.33, blue: 0.21)  // Darker green
+                        Color(red: 0.11, green: 0.30, blue: 0.24), // Deep forest green
+                        Color(red: 0.08, green: 0.22, blue: 0.18)  // Darker forest green
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -131,12 +131,12 @@ struct HomeView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(isRadioEnabled ? Color.white : Color.white.opacity(0.2))
-                                .foregroundColor(isRadioEnabled ? Color(red: 0.08, green: 0.26, blue: 0.16) : .white)
+                                .background(isRadioEnabled ? Color(red: 0.83, green: 0.69, blue: 0.22) : Color(red: 0.83, green: 0.69, blue: 0.22).opacity(0.3))
+                                .foregroundColor(isRadioEnabled ? Color(red: 0.11, green: 0.30, blue: 0.24) : Color(red: 0.96, green: 0.89, blue: 0.74))
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                        .stroke(Color(red: 0.96, green: 0.89, blue: 0.74).opacity(0.4), lineWidth: 1)
                                 )
                             }
                         }

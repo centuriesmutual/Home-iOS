@@ -11,11 +11,11 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Background gradient matching website
+                // Background gradient inspired by golden branch on forest green
                 LinearGradient(
                     gradient: Gradient(colors: [
-                        Color(red: 0.08, green: 0.26, blue: 0.16), // #14432A
-                        Color(red: 0.10, green: 0.33, blue: 0.21)  // Darker green
+                        Color(red: 0.11, green: 0.30, blue: 0.24), // Deep forest green
+                        Color(red: 0.08, green: 0.22, blue: 0.18)  // Darker forest green
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -82,8 +82,8 @@ struct LoginView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white)
-                                .foregroundColor(Color(red: 0.08, green: 0.26, blue: 0.16))
+                                .background(Color(red: 0.83, green: 0.69, blue: 0.22))
+                                .foregroundColor(Color(red: 0.11, green: 0.30, blue: 0.24))
                                 .cornerRadius(12)
                             }
                             .disabled(isLoading || email.isEmpty || password.isEmpty)
@@ -141,7 +141,7 @@ struct StatCard: View {
             Text(title)
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.08, green: 0.26, blue: 0.16))
+                .foregroundColor(Color(red: 0.83, green: 0.69, blue: 0.22))
             
             Text(subtitle)
                 .font(.caption)

@@ -66,5 +66,7 @@ struct LoginView: View {
 }
 
 #Preview {
-    SplashView()
+    NavigationStack {
+        SplashView()
+    }
 }

@@ -230,7 +230,7 @@ struct ThreadRow: View {
             HStack(spacing: 12) {
                 // Avatar
                 Circle()
-                    .fill(thread.senderType == "agent" ? Color(red: 0.08, green: 0.26, blue: 0.16) : Color.blue)
+                    .fill(thread.senderType == "agent" ? Color(red: 0.83, green: 0.69, blue: 0.22) : Color.blue)
                     .frame(width: 50, height: 50)
                     .overlay(
                         Text(thread.senderType == "agent" ? "A" : "U")
@@ -330,7 +330,7 @@ struct MessageBubble: View {
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 16)
-                            .fill(isFromUser ? Color(red: 0.08, green: 0.26, blue: 0.16) : Color(.systemGray5))
+                            .fill(isFromUser ? Color(red: 0.83, green: 0.69, blue: 0.22) : Color(.systemGray5))
                     )
                 
                 Text(message.timestamp, style: .time)
@@ -360,7 +360,7 @@ struct MessageInputView: View {
                     .font(.title2)
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
-                    .background(Color(red: 0.08, green: 0.26, blue: 0.16))
+                    .background(Color(red: 0.83, green: 0.69, blue: 0.22))
                     .clipShape(Circle())
             }
             .disabled(viewModel.newMessageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)

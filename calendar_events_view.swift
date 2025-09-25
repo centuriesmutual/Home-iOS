@@ -91,5 +91,7 @@ struct EventDetailView: View {
 }
 
 #Preview {
-    CalendarEventsView()
+    NavigationStack {
+        CalendarEventsView()
+    }
 }
